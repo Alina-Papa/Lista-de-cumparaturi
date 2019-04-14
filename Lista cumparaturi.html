@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Lista de cumparaturi</title>
+</head>
+
+<style>
+body {
+	background-image: url(https://images.pexels.com/photos/264537/pexels-photo-264537.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+	overflow-x: hidden;
+	margin: 0;
+	padding: 0;
+	color: #530F1C;
+}
+#List {
+	margin-top: 80px;
+	font-size: 20px;
+	background-color: #FCC740;
+	width: 30%;
+	margin:auto;
+	padding-left: 40px;
+	border-radius: 12px;
+
+}
+h1 {
+	
+	text-align: center;
+	margin-top: 60px;
+	font-size: 50px;
+	color: #530F1C;
+}
+
+	.input-part {
+	margin-top: 48px;
+	font-size: 25px;
+	text-align: center;
+	padding-bottom: 16px;
+	color: #530F1C;
+	
+}
+table {
+	background-color: #FCC740;
+	margin: auto;
+}
+th {
+	margin-left: 40px;
+}
+#sorting {
+	text-align: center;
+}
+.marked {
+	text-decoration: line-through;
+	color: gray;
+}
+
+button {
+	background-color: #B8C600;
+	cursor: pointer;
+	border-radius: 12px;
+	color: #530F1C;
+}
+button:hover {
+  background-color: #4CAF50;
+  color: white;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+</style>
+
+<script>
+var lista =[
+	{
+		name: "zahar",
+		mark:0
+	},
+	{
+		name: "Lapte",
+		mark:0
+	},
+	{
+		name: "Paine",
+		mark:0
+	},
+	{
+		name: "Orez",
+		mark:0
+	}];
+	var mark=0;
+
+
+	function add() {
+		var name=document.querySelector('[name="nume"]').value;
+		var produsNou ={
+			name,
+			mark
+		};
+		lista.push(produsNou);
+		draw();	
+	}
+	
+	function draw() {
+		var str=``;
+		for(var i =0; i<lista.length; i++) {
+			if (lista[i].mark===1) {
+				str +=`
+			<br />
+			<tr>
+				<td class="marked" id="tableProduct${i}">${lista[i].name}</td>
+				<td><button onclick="strikethrough(${i});" name="mark"  >Mark as buyed</button></td>
+			</tr>
+			 `;
+			}else{
+				str +=`
+			<br />
+			<tr>
+				<td class="" id="tableProduct${i}">${lista[i].name}</td>
+				<td><button onclick="strikethrough(${i});" name="mark"  >Mark as buyed</button></td>
+			</tr>
+			 `;
+			}
+			
+			 console.log(lista[i].name);
+		}
+		document.querySelector("table>tbody").innerHTML=str;
+		document.getElementById("inputItem").value='';
+	}
+
+	function strikethrough(idx) {		
+		document.getElementById(`tableProduct${idx}`).classList.add("marked");
+		lista[idx].mark=1;
+		console.log(lista[idx]);
+	}
+
+	function sortAsc() {
+		for(var i=0;i<lista.length;i++){
+			lista.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));			
+		}
+		draw();
+	}
+
+	function sortDesc() {
+		for(var i=0;i<lista.length;i++){
+			lista1=lista.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+			lista1.reverse();			
+		}
+
+
+		draw();
+	}
+
+	function enterKey(event){
+		  if (event.keyCode === 13) {
+		  	document.getElementById("btn").click();
+		  }
+	}
+</script>
+<body onload="draw();">
+	<div id="List">
+		<h1>Shopping List </h1>
+		<div class="input-part">
+			<label for="newItem">List Item</label>
+			<input type="text" name="nume" id="inputItem" onkeypress="enterKey(event);">
+			<button id="btn" onclick="add();">Add</button>
+		</div>
+		<div id="sorting">
+			<button id="asc" onclick="sortAsc();">Sort Asc</button>
+			<button id="desc" onclick="sortDesc();">Sort Desc</button>
+			<br>
+		</div>
+		<table id=myTable>
+			<thead>
+				<tr>
+					<th>Item Description</th>
+					<th>Action </th>
+				</tr>
+			<thead>
+				<br>
+			<tbody></tbody>
+		</table>	
+	</div>
+</body>
+</html>
